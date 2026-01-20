@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SubSync - the subtitle file Sync fixer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Sub-sync - Subtitle time fixer</h1>
+
+    <div id="explanation-panel" class="panel">
+      <p>Subtitle files not syncing with a movie have three possible causes:</p>
+      <ul>
+        <li>Different studio idents at the start.</li>
+        <li>The film has been re-encoded at a slightly different FPS (eg 29.97 vs 30).</li>
+        <li>This is a different edit of the film from the one the subtitles were taken from.</li>
+      </ul>
+      <p>The first two issues are the most common, and can be easily fixed with this tool. Use a player to find the timestamp of the first and last entries in the subtitle file to realign them.</p>
+    </div>
+
+    <div id="file-upload-container">
+      <input type="file" id="subtitle-file" accept=".srt,.txt" />
+      <p>Drag and drop a subtitle file here or click to select</p>
+    </div>
+
+    <div id="subtitle-context" class="panel" style="display: none;">
+      <div class="subtitle-samples">
+        <div class="sample-group">
+          <h4>First subtitles</h4>
+          <ul id="first-subtitles" class="subtitle-list"></ul>
+        </div>
+        <div class="sample-group">
+          <h4>Last subtitles</h4>
+          <ul id="last-subtitles" class="subtitle-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="sync-points-container">
+      <h3>Sync Points</h3>
+      <p>Enter the correct times for the first and last subtitles to sync your file.</p>
+
+      <div class="sync-points-grid">
+        <div class="sync-point" id="first-sync-point">
+          <h4>First Subtitle</h4>
+          <div class="current-time">Current: <span id="first-current-time">--:--:--.---</span></div>
+          <div class="subtitle-text" id="first-subtitle-text"></div>
+          <label>
+            Correct time:
+            <input type="text" id="first-new-time" placeholder="h:mm:ss.sss" />
+          </label>
+          <span class="time-format-hint">Format: h:mm:ss.sss</span>
+        </div>
+
+        <div class="sync-point" id="last-sync-point">
+          <h4>Last Subtitle</h4>
+          <div class="current-time">Current: <span id="last-current-time">--:--:--.---</span></div>
+          <div class="subtitle-text" id="last-subtitle-text"></div>
+          <label>
+            Correct time:
+            <input type="text" id="last-new-time" placeholder="h:mm:ss.sss" />
+          </label>
+          <span class="time-format-hint">Format: h:mm:ss.sss</span>
+        </div>
+      </div>
+
+      <div class="error-message" id="sync-error"></div>
+      <button type="button" id="apply-adjustments">Apply Sync</button>
+    </div>
+
+    <div id="download-container" style="display: none;">
+      <button type="button" id="download-srt">Download Adjusted SRT</button>
+    </div>
+
+    <div id="import-popover" popover>
+      <h3>Import Complete</h3>
+      <div id="import-stats"></div>
+      <div id="import-warnings" class="import-warnings hidden"></div>
+      <button type="button" popovertarget="import-popover">OK</button>
+    </div>
+
+    <div id="adjustment-popover" popover>
+      <h3>Sync Applied</h3>
+      <div id="adjustment-stats"></div>
+      <button type="button" popovertarget="adjustment-popover">OK</button>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
